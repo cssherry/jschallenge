@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+}
+
+.item.todo-new-item {
+    min-width: 300px;
+}
+
+.item.todo-list {
+    min-width: 400px;
+    color: #555;
+    border: 1px solid #dedede;
+    padding: 10px;
+    margin: 10px;
+}
+
+.icon {
+    margin-left: 50px;
+    cursor: pointer;
+}
+
+.icon:hover {
+    color: blue;
+}
+
+.icon-reset::before {
+    content: "\21BB";
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+ul > li {
+    vertical-align: top;
+    list-style: none;
+}
+
+#todo-done {
+    text-decoration: line-through;
+}
+
+#todo-done input {
+    width: 0;
+    height: 0;
+}
+
+#todo-done label::before {
+    content: "\2713";
+}
