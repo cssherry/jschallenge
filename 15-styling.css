@@ -49,3 +49,7 @@ ul > li {
 #todo-done label::before {
     content: "\2713";
 }
+
+.pull-right {
+    float: right;
+}
