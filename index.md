@@ -2,6 +2,8 @@
 
 Code for [Wesbos's 30 day JS challenge](https://javascript30.com). Done in a more leisurely and exploratory manner.
 
+Visit code on [Github](https://github.com/cssherry/jschallenge)
+
 ## 01: ["Drumkit"](01-drumkit.html)
 
 ## 15: [Todo list](15-todolist.html) (with local storage)
