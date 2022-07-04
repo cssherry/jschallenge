@@ -1,14 +1,13 @@
-- [JS Coding Challenge](#js-coding-challenge)
-  - [01: "Drumkit"](#01-drumkit)
-  - [15: Todo list (with local storage)](#15-todo-list-with-local-storage)
-    - [Resources](#resources)
-
 # JS Coding Challenge
 
 Code for [Wesbos's 30 day JS challenge](https://javascript30.com). Done in a more leisurely and exploratory manner.
 
 Visit code on [Github](https://github.com/cssherry/jschallenge)
 
+- [JS Coding Challenge](#js-coding-challenge)
+  - [01: "Drumkit"](#01-drumkit)
+  - [15: Todo list (with local storage)](#15-todo-list-with-local-storage)
+    - [Resources](#resources)
 ## 01: ["Drumkit"](01-drumkit.html)
 
 ## 15: [Todo list](15-todolist.html) (with local storage)
