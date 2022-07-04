@@ -49,7 +49,7 @@ window.onload = () => {
     // Handle when new item added
     document.getElementById('todo-form').addEventListener('submit', function addTodo(e) {
         e.preventDefault();
-        const newIdx = todoList;
+        const newIdx = todoList.length;
         const newTodo = {
             value: todoInput.value,
             done: false,
