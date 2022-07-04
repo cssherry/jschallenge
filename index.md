@@ -10,7 +10,11 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
     - [Resources](#resources)
 ## 01: ["Drumkit"](01-drumkit.html)
 
+[Back up](#js-coding-challenge)
+
 ## 15: [Todo list](15-todolist.html) (with local storage)
+
+[Back up](#js-coding-challenge)
 
 The main highlight of this is the use of local storage so that the items on the todo list persist even after exiting the page.
 
