@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist/",
+      "moduleResolution": "node",
+      "noImplicitAny": true,
+      "allowSyntheticDefaultImports": true,
+      "sourceMap": true,
+      "module": "es6",
+      "target": "ES2015",
+      "strict": true,
+    },
+    "ts-node": {
+      "compilerOptions": {
+        // Prevent "Cannot use import statement outside a module" errors
+        "module": "CommonJS"
+      }
+    },
+    "exclude": ["*.spec.ts"]
+  }
