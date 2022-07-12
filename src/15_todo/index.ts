@@ -1,3 +1,5 @@
+import './style.scss';
+
 window.onload = () => {
     let todoList = JSON.parse(localStorage.getItem('todo')) || [];
     const todoInput = document.getElementById('todo-input');
