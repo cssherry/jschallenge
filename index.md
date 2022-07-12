@@ -5,12 +5,45 @@ Code for [Wesbos's 30 day JS challenge](https://javascript30.com). Done in a mor
 Visit code on [Github](https://github.com/cssherry/jschallenge)
 
 - [JS Coding Challenge](#js-coding-challenge)
+  - [Setting up typescript + scss](#setting-up-typescript--scss)
   - [01: "Drumkit"](#01-drumkit)
   - [15: Todo list (with local storage)](#15-todo-list-with-local-storage)
     - [Resources](#resources)
+
+
+## [Setting up typescript + scss](https://javascript.plainenglish.io/webpack-in-2021-typescript-jest-sass-eslint-7b4640842e27)
+
+- Set up [new npm package](https://docs.npmjs.com/cli/v7/commands/npm-init): `npm init` (add `-y` if you want empty package.json)
+- Install webpack:
+  - `npm install webpack webpack-cli --save-dev`
+  - Set up a `webpack.common.ts` (basic webpack config), `webpack.dev.ts`, and `webpack.prod.ts`
+- Install webpack plugins:
+  - `npm install clean-webpack-plugin fork-ts-checker-webpack-plugin html-webpack-plugin --save-dev`
+  - `clean-webpack-plugin`: cleans output folder upon every build
+  - `fork-ts-checker-webpack-plugin`: typescript build improvement
+  - `html-webpack-plugin`: automatically creates html file with scripts + css files included
+- Add typescript support
+  - `npm install --save-dev typescript ts-loader`
+  - Enable typescript in webpack config: `npm install --save-dev ts-node`
+  - Add ts-loader to `webpack.common.ts`
+  - Add eslint: `npm install @typescript-eslint/eslint-plugin @typescript-eslint/parser @types/eslint --save-dev`
+- Add SASS support
+  - `npm install --save-dev sass-loader style-loader css-loader node-sass mini-css-extract-plugin`
+  - Add `MiniCssExtractPlugin` to Webpack plugins and as a rule
+  - scss files can be imported into the relevant index.ts file
+- Add Jest testing
+  - `npm install --save-dev jest ts-jest`
+  - Install so typescript recognizes jest keywords: `npm install --save-dev @types/jest @types/node`
+  - Add jest config by using `npx ts-jest config:init` (can also add to webpack config, but doesn't work with typescript)
+  - Run with `npx jest` or `npm test`
+  - SME Impala
+  - Kaiser perf -- oracle metadata
+
 ## 01: ["Drumkit"](01-drumkit.html)
 
 [Back up](#js-coding-challenge)
+
+The highlight of this challenge was learning to use the
 
 ## 15: [Todo list](15-todolist.html) (with local storage)
 
