@@ -51,6 +51,14 @@ export const commonWebpackConfiguration: Configuration = {
               }
             ]
           },
+          {
+            test: /\.png/,
+            type: 'asset/resource',
+          },
+          {
+            test: /\.html/,
+            use: ['html-loader'],
+          },
       ]
     },
     resolve: {

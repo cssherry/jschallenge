@@ -21,10 +21,11 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
   - `npm install webpack webpack-cli --save-dev`
   - Set up a `webpack.common.ts` (basic webpack config), `webpack.dev.ts`, and `webpack.prod.ts`
 - Install webpack plugins:
-  - `npm install clean-webpack-plugin fork-ts-checker-webpack-plugin html-webpack-plugin --save-dev`
+  - `npm install clean-webpack-plugin fork-ts-checker-webpack-plugin html-webpack-plugin html-loader --save-dev`
   - `clean-webpack-plugin`: cleans output folder upon every build
   - `fork-ts-checker-webpack-plugin`: typescript build improvement
   - `html-webpack-plugin`: automatically creates html file with scripts + css files included
+  - `html-loader`: supports including image/assets in html (as described [here](https://stackoverflow.com/questions/47126503/how-to-load-images-through-webpack-when-using-htmlwebpackplugin) and documented [here](https://webpack.js.org/loaders/html-loader/))
 - Add typescript support
   - `npm install --save-dev typescript ts-loader`
   - Enable typescript in webpack config: `npm install --save-dev ts-node`
@@ -62,7 +63,7 @@ The highlight of this challenge was learning to use the
 
 - [ ] Animation properly for recordings
 - [ ] Different instruments
-- [ ] Typescript
+- [X] Typescript
 
 ## 15: [Todo list](15-todolist.html) (with local storage)
 
