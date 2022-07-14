@@ -1,10 +1,11 @@
 import './style.scss';
+import { TodoItem } from './types';
 
 window.onload = () => {
-    let todoList = JSON.parse(localStorage.getItem('todo')) || [];
-    const todoInput = document.getElementById('todo-input');
-    const todoDone = document.getElementById('todo-done');
-    const todoUndone = document.getElementById('todo-undone');
+    let todoList: TodoItem[] = JSON.parse(localStorage.getItem('todo') || '[]') || [];
+    const todoInput = document.getElementById('todo-input') as HTMLInputElement;
+    const todoDone = document.getElementById('todo-done') as HTMLUListElement;
+    const todoUndone = document.getElementById('todo-undone') as HTMLUListElement;
 
     function storeTodos() {
         localStorage.setItem('todo', JSON.stringify(todoList));
@@ -16,7 +17,7 @@ window.onload = () => {
         drawTodos()
     }
 
-    function addItemToList(todo, idx) {
+    function addItemToList(todo: TodoItem, idx: number) {
         const itemList = todo.done ? todoDone : todoUndone;
         const newItem = document.createElement('li');
         const inputId = `checkbox${idx}`
@@ -30,12 +31,18 @@ window.onload = () => {
     }
 
     function drawTodos() {
-        todoDone.innerHTML = '';
-        todoUndone.innerHTML = '';
+        if (todoDone) {
+            todoDone.innerHTML = '';
+        }
+
+        if (todoUndone) {
+            todoUndone.innerHTML = '';
+        }
+
         todoList.forEach(addItemToList);
     }
 
-    function changeList(currTodo, ul) {
+    function changeList(currTodo: TodoItem, ul: HTMLElement) {
         const isDone = currTodo.done;
         currTodo.done = !currTodo.done;
         storeTodos();
@@ -46,10 +53,10 @@ window.onload = () => {
     }
 
     // Handle reset
-    document.getElementById('todo-reset').addEventListener('click', resetTodos);
+    document.getElementById('todo-reset')?.addEventListener('click', resetTodos);
 
     // Handle when new item added
-    document.getElementById('todo-form').addEventListener('submit', function addTodo(e) {
+    document.getElementById('todo-form')?.addEventListener('submit', function addTodo(e) {
         e.preventDefault();
         const newIdx = todoList.length;
         const newTodo = {
@@ -63,12 +70,16 @@ window.onload = () => {
 
     // Handle when things get marked as done/undone
     document.addEventListener('change', (e) => {
-        const changedInput = e.target;
-        if (changedInput.id === 'todo-input') return; // Don't try to change list if new item
+        const changedInput = e.target as HTMLElement;
+        if (!changedInput || changedInput.id === 'todo-input') return; // Don't try to change list if new item
 
         const objIdx = changedInput.dataset.id;
+        /* @ts-expect-error Element implicitly has an 'any' type because index expression is not of type 'number' */
         const currTodo = todoList[objIdx];
-        changeList(currTodo, changedInput.parentElement);
+
+        if (changedInput.parentElement) {
+            changeList(currTodo, changedInput.parentElement);
+        }
     });
 
     // Purely to test the event propagation
@@ -78,7 +89,7 @@ window.onload = () => {
         console.log('Event currentTarget: ', e.currentTarget);
     })
 
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', () => {
         console.log('Event captured');
     }, true)
 
