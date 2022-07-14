@@ -5,6 +5,7 @@
       "noImplicitAny": true,
       "allowSyntheticDefaultImports": true,
       "sourceMap": true,
+      "esModuleInterop": true,
       "module": "es6",
       "target": "ES2015",
       "strict": true,

@@ -1,10 +1,16 @@
 import * as path from 'path';
 import type { Configuration } from 'webpack';
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const ESLintPlugin = require("eslint-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import ESLintPlugin from "eslint-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+
+// ES6 imports do not work without esModuleInterop=true
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+// const ESLintPlugin = require("eslint-webpack-plugin");
+// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 export const commonWebpackConfiguration: Configuration = {
     entry: {
@@ -52,10 +58,6 @@ export const commonWebpackConfiguration: Configuration = {
     },
     plugins: [
       new CleanWebpackPlugin(),
-      new HtmlWebpackPlugin({
-        filename: '[name].html',
-        template: 'src/[name]/index.html',
-      }),
       new ForkTsCheckerWebpackPlugin(),
       new ESLintPlugin({
           extensions: ['.tsx', '.ts', '.js'],
@@ -66,6 +68,11 @@ export const commonWebpackConfiguration: Configuration = {
         // both options are optional
         filename: '[name].[contenthash].css',
         chunkFilename: '[id].css',
+      }),
+      new HtmlWebpackPlugin({
+        filename: '15-todo.html',
+        template: 'src/15_todo/index.html',
+        chunks: ['15_todo'],
       }),
   ],
 }
