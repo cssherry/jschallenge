@@ -9,7 +9,7 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
     - [To Run](#to-run)
     - [To Build for hosting (+ test)](#to-build-for-hosting--test)
     - [To test](#to-test)
-  - [01: "Drumkit"](#01-drumkit)
+  - [01: "Drum kit"](#01-drum-kit)
     - [#01 TODOs](#01-todos)
       - [IMPROVEMENTS](#improvements)
       - [Stretch](#stretch)
@@ -56,7 +56,7 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
 
 `npm run test`
 
-## 01: ["Drumkit"](01-drumkit.html)
+## 01: ["Drum kit"](demo/01-drum-kit.html)
 
 [Back up](#js-coding-challenge)
 
@@ -80,7 +80,7 @@ The highlight of this challenge was learning to use the
 - [ ] Different instruments
 - [X] Typescript
 
-## 15: [Todo list](15-todolist.html) (with local storage)
+## 15: [Todo list](demo/15-todo.html) (with local storage)
 
 [Back up](#js-coding-challenge)
 

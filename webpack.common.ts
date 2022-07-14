@@ -14,14 +14,14 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 export const commonWebpackConfiguration: Configuration = {
     entry: {
-      '15_todo': './src/15_todo/index.ts'
+      '15_todo': './src/15_todo/index.ts',
     },
     optimization: {
       usedExports: true
     },
     output: {
       filename: '[name].[contenthash].js',
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'demo'),
     },
     module: {
       rules: [
