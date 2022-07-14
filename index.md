@@ -7,12 +7,12 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
 - [JS Coding Challenge](#js-coding-challenge)
   - [Setting up typescript + scss](#setting-up-typescript--scss)
   - [01: "Drumkit"](#01-drumkit)
-    - [TODOS](#todos)
+    - [#01 TODOs](#01-todos)
       - [IMPROVEMENTS](#improvements)
       - [Stretch](#stretch)
   - [15: Todo list (with local storage)](#15-todo-list-with-local-storage)
+    - [#15 TODOs](#15-todos)
     - [Resources](#resources)
-
 
 ## [Setting up typescript + scss](https://javascript.plainenglish.io/webpack-in-2021-typescript-jest-sass-eslint-7b4640842e27)
 
@@ -47,7 +47,7 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
 
 The highlight of this challenge was learning to use the
 
-### TODOS
+### #01 TODOs
 
 - [ ] Svg Keyboard with highlight
 - [ ] Plays on keypress
@@ -76,6 +76,11 @@ Since this uses localStorage, tasks will not persis after hard refresh of the pa
 Event propagation is used so that event is added to the whole list rather than individual items.
 
 The content of `::before` pseudo-element is used to create checkbox and reset icons
+
+### #15 TODOs
+
+- [ ] Refactor for testing
+- [ ] Add Tests
 
 ### Resources
 
