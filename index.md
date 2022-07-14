@@ -7,6 +7,9 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
 - [JS Coding Challenge](#js-coding-challenge)
   - [Setting up typescript + scss](#setting-up-typescript--scss)
   - [01: "Drumkit"](#01-drumkit)
+    - [TODOS](#todos)
+      - [IMPROVEMENTS](#improvements)
+      - [Stretch](#stretch)
   - [15: Todo list (with local storage)](#15-todo-list-with-local-storage)
     - [Resources](#resources)
 
@@ -36,14 +39,30 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
   - Install so typescript recognizes jest keywords: `npm install --save-dev @types/jest @types/node`
   - Add jest config by using `npx ts-jest config:init` (can also add to webpack config, but doesn't work with typescript)
   - Run with `npx jest` or `npm test`
-  - SME Impala
-  - Kaiser perf -- oracle metadata
 
 ## 01: ["Drumkit"](01-drumkit.html)
 
 [Back up](#js-coding-challenge)
 
 The highlight of this challenge was learning to use the
+
+### TODOS
+
+- [ ] Svg Keyboard with highlight
+- [ ] Plays on keypress
+- [ ] Records and downloads
+- [ ] Plays
+
+#### IMPROVEMENTS
+
+- [ ] Replays in repeat
+- [ ] Multiple replays at once
+
+#### Stretch
+
+- [ ] Animation properly for recordings
+- [ ] Different instruments
+- [ ] Typescript
 
 ## 15: [Todo list](15-todolist.html) (with local storage)
 
