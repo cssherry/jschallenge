@@ -6,6 +6,9 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
 
 - [JS Coding Challenge](#js-coding-challenge)
   - [Setting up typescript + scss](#setting-up-typescript--scss)
+    - [To Run](#to-run)
+    - [To Build for hosting (+ test)](#to-build-for-hosting--test)
+    - [To test](#to-test)
   - [01: "Drumkit"](#01-drumkit)
     - [#01 TODOs](#01-todos)
       - [IMPROVEMENTS](#improvements)
@@ -40,6 +43,18 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
   - Install so typescript recognizes jest keywords: `npm install --save-dev @types/jest @types/node`
   - Add jest config by using `npx ts-jest config:init` (can also add to webpack config, but doesn't work with typescript)
   - Run with `npx jest` or `npm test`
+
+### To Run
+
+`npm start`
+
+### To Build for hosting (+ test)
+
+`npm run build`
+
+### To test
+
+`npm run test`
 
 ## 01: ["Drumkit"](01-drumkit.html)
 
