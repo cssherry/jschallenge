@@ -66,6 +66,7 @@ window.onload = () => {
         todoList.push(newTodo);
         storeTodos();
         addItemToList(newTodo, newIdx);
+        todoInput.value = '';
     });
 
     // Handle when things get marked as done/undone
