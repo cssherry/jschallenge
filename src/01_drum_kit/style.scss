@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    height: 100vh;
+
+    .key-black, .key-white {
+        transition: 0.2s;
+
+        &:hover {
+            -webkit-transition: .2s;
+            -o-transition: .2s;
+            transition: .2s;
+        }
+
+        &.pressed {
+            fill: gray;
+            stroke: black;
+        }
+    }
+
+    .key-white {
+        fill: white;
+        stroke: black;
+
+        &:hover {
+            fill: #e5e5e5;
+        }
+    }
+    .text-white {
+        fill: black;
+    }
+
+    .key-black {
+        fill: black;
+        stroke: white;
+
+        &:hover {
+            fill: #000000da;
+        }
+    }
+    .text-black {
+        fill: white;
+    }
+}

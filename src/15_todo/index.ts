@@ -1,4 +1,5 @@
 import './style.scss';
+import '../util/style.scss';
 import { TodoItem } from './types';
 
 window.onload = () => {

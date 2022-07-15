@@ -64,21 +64,21 @@ The highlight of this challenge was learning to use the
 
 ### #01 TODOs
 
-- [ ] Svg Keyboard with highlight
-- [ ] Plays on keypress
-- [ ] Records and downloads
-- [ ] Plays
+[x] Svg Keyboard with highlight (based off [this virtual keyboard](https://virtualpiano.net/))
+[ ] Plays on keypress
+[ ] Records and downloads
+[ ] Plays
 
 #### IMPROVEMENTS
 
-- [ ] Replays in repeat
-- [ ] Multiple replays at once
+[ ] Replays in repeat
+[ ] Multiple replays at once
 
 #### Stretch
 
-- [ ] Animation properly for recordings
-- [ ] Different instruments
-- [X] Typescript
+[ ] Animation properly for recordings
+[ ] Different instruments
+[X] Typescript
 
 ## 15: [Todo list](demo/15-todo.html) (with local storage)
 
@@ -94,8 +94,8 @@ The content of `::before` pseudo-element is used to create checkbox and reset ic
 
 ### #15 TODOs
 
-- [ ] Refactor for testing
-- [ ] Add Tests
+[ ] Refactor for testing
+[ ] Add Tests
 
 ### Resources
 

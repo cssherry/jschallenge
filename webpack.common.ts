@@ -15,6 +15,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 export const commonWebpackConfiguration: Configuration = {
     entry: {
       '15_todo': './src/15_todo/index.ts',
+      '01_drum_kit': './src/01_drum_kit/index.ts',
     },
     optimization: {
       usedExports: true
@@ -81,6 +82,11 @@ export const commonWebpackConfiguration: Configuration = {
         filename: '15-todo.html',
         template: 'src/15_todo/index.html',
         chunks: ['15_todo'],
+      }),
+      new HtmlWebpackPlugin({
+        filename: '01-drum-kit.html',
+        template: 'src/01_drum_kit/index.html',
+        chunks: ['01_drum_kit'],
       }),
   ],
 }
