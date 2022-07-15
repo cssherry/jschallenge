@@ -1,10 +1,10 @@
 import './style.scss';
 import '../util/style.scss';
-import { drawKeyboard } from './code';
+import { addEventListeners, drawKeyboard } from './code';
 
 window.onload = () => {
     const keyboardContainer = document.getElementById('keyboard') as HTMLElement;
-    drawKeyboard(keyboardContainer, [
+    const keyToNote = drawKeyboard(keyboardContainer, [
         '1',
         '2',
         '3',
@@ -42,4 +42,6 @@ window.onload = () => {
         'n',
         'm',
     ]);
+
+    addEventListeners(keyboardContainer, keyToNote);
 };
