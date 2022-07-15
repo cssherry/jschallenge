@@ -112,10 +112,6 @@ export function drawKeyboard(
     const keyboard = appendSvgChild(containerElement, 'svg');
     keyboard.setAttribute('height', `${whiteHeight}px`);
     keyboard.setAttribute('width', `${whiteWidth * (keys.length + 1)}px`);
-    const insetFilter = document.getElementById('inset-filter')
-    if (insetFilter) {
-        keyboard.append(insetFilter);
-    }
 
     // Draw keys and build out keyToNote
     let previousKey: string;
@@ -126,8 +122,10 @@ export function drawKeyboard(
         // Info on pitch notation: https://www.allaboutmusictheory.com/piano-keyboard/music-note-names/
         const currPitch = startScale + Math.floor(idx / 7);
         const currKey = String.fromCharCode(((idx + 2) % 7) + 65);
-        keyToNote[key] = `${currKey}${currPitch}`;
+        const currPitchKey = `${currKey}${currPitch}`;
+        keyToNote[key] = currPitchKey;
         whiteKey.setAttribute('data-key', key);
+        whiteKey.setAttribute('data-pitch-key', currPitchKey);
 
         if (keyToNote[key] === 'C4') {
             const cTitle = appendSvgChild(whiteKey, 'title');
@@ -141,6 +139,7 @@ export function drawKeyboard(
             const blackKeyCode = getBlackKey(previousKey);
             keyToNote[blackKeyCode] = blackKeyNote;
             blackKey.setAttribute('data-key', blackKeyCode);
+            blackKey.setAttribute('data-pitch-key', blackKeyNote);
         }
 
         previousKey = key;
@@ -151,6 +150,9 @@ export function drawKeyboard(
 
 
 /* 02 - EVENT LISTENERS FOR PLAYING KEYBOARD */
+const playedNote = document.getElementById('pressed-note') as HTMLElement;
+const playedKey = document.getElementById('pressed-key') as HTMLElement;
+const listOfKeys = document.querySelector('.display-right') as HTMLElement;
 const playedSounds: PlayedSoundMap = {};
 function playSound(playKey: string | null, keyToNote: KeyNoteMap): void {
     if (playKey) {
@@ -170,16 +172,17 @@ function playSound(playKey: string | null, keyToNote: KeyNoteMap): void {
             };
         }
 
+        playedNote.textContent = keyToNote[playKey];
+        playedKey.textContent = playKey;
+        listOfKeys.textContent += ` ${keyToNote[playKey]} `;
         audio.currentTime = 0.1;
         audio.play();
     }
 }
 
 const shiftKey = 'Shift';
-function recordPress(event: KeyboardEvent, keyToNote: KeyNoteMap): void {
-    const currKey = event.key;
-
-    if (currKey === shiftKey || !keyToNote[currKey] || (playedSounds[currKey] && playedSounds[currKey].status === PlayStatus.Playing)) return;
+function recordPress(currKey: string | undefined, keyToNote: KeyNoteMap): void {
+    if (!currKey || currKey === shiftKey || !keyToNote[currKey] || (playedSounds[currKey] && playedSounds[currKey].status === PlayStatus.Playing)) return;
 
     playSound(currKey, keyToNote);
 }
@@ -192,8 +195,8 @@ function keyReleased(currKey: string, existingKey: string) {
     return existingKey === currKey || existingKey.startsWith(`${currKey}_`) || existingKey.endsWith(`_${currKey}`);
 }
 
-function recordStop(event: KeyboardEvent) {
-    const currKey = event.key;
+function recordStop(currKey: string | undefined) {
+    if (!currKey) return;
     let stoppedSound: PlayedSound | undefined;
     Object.values(playedSounds).forEach((playedSound: PlayedSound): void => {
         if (keyReleased(currKey, playedSound.key)) {
@@ -209,12 +212,13 @@ function recordStop(event: KeyboardEvent) {
             const handleIdx = stopped.lastHandledIdx;
             const currAudio = stopped.audios[handleIdx];
             if (currAudio) {
+                playedNote.textContent = 'N/A';
+                playedKey.textContent = 'N/A';
+
                 currAudio.currentTime = 4;
                 unpressKey(stopped.key);
                 stopped.status = PlayStatus.Fading;
                 setTimeout(() => {
-                    console.log('handleIdx', handleIdx);
-
                     stopped.audios[handleIdx] = null;
 
                     if (stopped.audios.every(audio => !audio)) {
@@ -228,9 +232,37 @@ function recordStop(event: KeyboardEvent) {
 
 export function addEventListeners(keyboard: HTMLElement, keyToNote: KeyNoteMap): void {
     document.addEventListener('keydown', (e) => {
-        recordPress(e, keyToNote);
+        const currKey = e.key;
+        recordPress(currKey, keyToNote);
+    });
+    keyboard.addEventListener('mousedown', (e) => {
+        const currKey = (e.target as null | SVGElement)?.dataset?.key;
+        recordPress(currKey, keyToNote);
+    });
+    keyboard.addEventListener('touchstart', (e) => {
+        const currKey = (e.target as null | SVGElement)?.dataset?.key;
+        recordPress(currKey, keyToNote);
     });
 
     // Stop playing sound
-    document.addEventListener('keyup', recordStop);
+    document.addEventListener('keyup', (e) => {
+        const currKey = e.key;
+        recordStop(currKey);
+    });
+    keyboard.addEventListener('mouseup', (e) => {
+        const currKey = (e.target as null | SVGElement)?.dataset?.key;
+        recordStop(currKey);
+    });
+    keyboard.addEventListener('touchend', (e) => {
+        const currKey = (e.target as null | SVGElement)?.dataset?.key;
+        recordStop(currKey);
+    });
+    keyboard.addEventListener('touchmove', (e) => {
+        const currKey = (e.target as null | SVGElement)?.dataset?.key;
+        recordStop(currKey);
+    });
+    keyboard.addEventListener('touchcancel', (e) => {
+        const currKey = (e.target as null | SVGElement)?.dataset?.key;
+        recordStop(currKey);
+    });
 }

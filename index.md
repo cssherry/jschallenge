@@ -79,8 +79,9 @@ done
 
 [X] Svg Keyboard with highlight (based off [this virtual keyboard](https://virtualpiano.net/))
 [X] Plays on key press
+[X] Show notes
+[ ] Control volume
 [ ] Records and downloads
-[ ] Plays
 
 #### IMPROVEMENTS
 
