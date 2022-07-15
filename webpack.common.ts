@@ -1,6 +1,6 @@
 import * as path from 'path';
 import type { Configuration } from 'webpack';
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
+// import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import ESLintPlugin from "eslint-webpack-plugin";
@@ -53,7 +53,7 @@ export const commonWebpackConfiguration: Configuration = {
             ]
           },
           {
-            test: /\.png/,
+            test: /\.(png|mp3)$/,
             type: 'asset/resource',
           },
           {
@@ -66,7 +66,7 @@ export const commonWebpackConfiguration: Configuration = {
       extensions: ['.ts', '.js']
     },
     plugins: [
-      new CleanWebpackPlugin(),
+      // new CleanWebpackPlugin(),
       new ForkTsCheckerWebpackPlugin(),
       new ESLintPlugin({
           extensions: ['.tsx', '.ts', '.js'],

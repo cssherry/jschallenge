@@ -3,9 +3,16 @@ export type KeyNoteMap = {
     [key: string]: string;
 }
 
+export enum PlayStatus {
+    Playing,
+    Fading,
+}
+
 export type PlayedSound = {
     key: string;
-    audio: HTMLAudioElement;
+    audios: (HTMLAudioElement | null)[];
+    status: PlayStatus;
+    lastHandledIdx: number;
 }
 
 export type PlayedSoundMap = {

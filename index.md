@@ -10,12 +10,13 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
     - [To Build for hosting (+ test)](#to-build-for-hosting--test)
     - [To test](#to-test)
   - [01: "Drum kit"](#01-drum-kit)
+    - [Resources](#resources)
     - [#01 TODOs](#01-todos)
       - [IMPROVEMENTS](#improvements)
       - [Stretch](#stretch)
   - [15: Todo list (with local storage)](#15-todo-list-with-local-storage)
     - [#15 TODOs](#15-todos)
-    - [Resources](#resources)
+    - [Resources](#resources-1)
 
 ## [Setting up typescript + scss](https://javascript.plainenglish.io/webpack-in-2021-typescript-jest-sass-eslint-7b4640842e27)
 
@@ -60,12 +61,24 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
 
 [Back up](#js-coding-challenge)
 
-The highlight of this challenge was learning to use the
+### Resources
+
+- Sources for sound: https://sound.stackexchange.com/questions/22769/are-there-free-records-of-separate-piano-notes-in-wav-files-for-instance
+- Quick source: https://theremin.music.uiowa.edu/MISpiano.html
+  - Install ffmpeg: `brew install ffmpeg`
+  - Used ffmpeg to normalize:
+
+```bash
+# https://stackoverflow.com/questions/5784661/how-do-you-convert-an-entire-directory-with-ffmpeg + https://sound.stackexchange.com/questions/22769/are-there-free-records-of-separate-piano-notes-in-wav-files-for-instance
+for i in *.aiff;
+  do ffmpeg -i "$i" -af loudnorm,silenceremove=start_periods=1:start_silence=0.05:start_threshold=-40dB,afade=out:st=3:d=1.5,afade=in:st=0:d=0.05 -to 4.5 "converted/${i%.*}.mp3"
+done
+```
 
 ### #01 TODOs
 
-[x] Svg Keyboard with highlight (based off [this virtual keyboard](https://virtualpiano.net/))
-[ ] Plays on keypress
+[X] Svg Keyboard with highlight (based off [this virtual keyboard](https://virtualpiano.net/))
+[X] Plays on key press
 [ ] Records and downloads
 [ ] Plays
 

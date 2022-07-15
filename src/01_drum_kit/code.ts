@@ -1,5 +1,5 @@
 import { appendSvgChild } from "../util/html_helpers";
-import { KeyNoteMap, PlayedSound, PlayedSoundMap } from "./types";
+import { KeyNoteMap, PlayedSound, PlayedSoundMap, PlayStatus } from "./types";
 
 function getKeyElement(playedKey: string): SVGElement | null {
     return document.querySelector(`[data-key="${playedKey}"]`);
@@ -34,27 +34,10 @@ function addWhiteRect(keyboard: SVGElement, idx: number, keyShortcut: string): S
     return key;
 }
 
-// Add sharps for every note except 3rd (E) and  7th (B)
-function addBlackRect(keyboard: SVGElement, idx: number, keyShortcut: string): null | SVGElement {
-    const scaleValue = idx % 7;
-    if (scaleValue === 0 || scaleValue === 3) return null;
-
-    const nextWhiteWidth = getNextWhite(idx);
-    const key = appendSvgChild(keyboard, 'rect');
-    key.classList.add('key-black');
-    key.setAttribute('height', `${blackHeight}px`);
-    key.setAttribute('width', `${blackWidth}px`);
-    key.setAttribute('y', '0');
-    key.setAttribute('x', `${nextWhiteWidth - blackOffset}`);
-
-    const label = appendSvgChild(keyboard, 'text');
-    label.classList.add('text-black');
-    label.setAttribute('y', `${blackHeight / 2}px`);
-    label.setAttribute('x', `${nextWhiteWidth - blackLabelOffset}px`);
-
+function getBlackKey(unshiftedKey: string): string {
     // This is specific to US keyboard... oh well
-    let shiftKey = Number.isNaN(parseInt(keyShortcut)) ? keyShortcut.toUpperCase() : keyShortcut;
-    switch (keyShortcut) {
+    let shiftKey = Number.isNaN(parseInt(unshiftedKey)) ? unshiftedKey.toUpperCase() : unshiftedKey;
+    switch (unshiftedKey) {
         case '1':
             shiftKey = '!';
             break;
@@ -88,8 +71,28 @@ function addBlackRect(keyboard: SVGElement, idx: number, keyShortcut: string): n
         default:
             break;
     }
+    return shiftKey;
+}
 
-    label.textContent = shiftKey;
+// Add sharps for every note except 3rd (E) and  7th (B)
+function addBlackRect(keyboard: SVGElement, idx: number, keyShortcut: string): null | SVGElement {
+    const scaleValue = idx % 7;
+    if (scaleValue === 0 || scaleValue === 3) return null;
+
+    const nextWhiteWidth = idx * whiteWidth;
+    const key = appendSvgChild(keyboard, 'rect');
+    key.classList.add('key-black');
+    key.setAttribute('height', `${blackHeight}px`);
+    key.setAttribute('width', `${blackWidth}px`);
+    key.setAttribute('y', '0');
+    key.setAttribute('x', `${nextWhiteWidth - blackOffset}`);
+
+    const label = appendSvgChild(keyboard, 'text');
+    label.classList.add('text-black');
+    label.setAttribute('y', `${blackHeight / 2}px`);
+    label.setAttribute('x', `${nextWhiteWidth - blackLabelOffset}px`);
+
+    label.textContent = getBlackKey(keyShortcut);
     return key;
 }
 
@@ -118,19 +121,24 @@ export function drawKeyboard(
     let previousKey: string;
     keys.forEach((key: string, idx: number): void => {
         const whiteKey = addWhiteRect(keyboard,  idx, key);
-        const blackKey = addBlackRect(keyboard,  idx, key);
+        const blackKey = addBlackRect(keyboard,  idx, previousKey);
 
         // Info on pitch notation: https://www.allaboutmusictheory.com/piano-keyboard/music-note-names/
         const currPitch = startScale + Math.floor(idx / 7);
-        const currKey = String.fromCharCode((idx + 2 % 7) + 65);
+        const currKey = String.fromCharCode(((idx + 2) % 7) + 65);
         keyToNote[key] = `${currKey}${currPitch}`;
         whiteKey.setAttribute('data-key', key);
+
+        if (keyToNote[key] === 'C4') {
+            const cTitle = appendSvgChild(whiteKey, 'title');
+            cTitle.textContent = 'This is middle C (C4)';
+        }
 
         if (blackKey && previousKey) {
             // Iowa files show piano pieces as flats rather than sharps
             // However, user expects sharps because they are pressing shift
             const blackKeyNote = `${currKey}b${currPitch}`;
-            const blackKeyCode = `Shift_${previousKey}`;
+            const blackKeyCode = getBlackKey(previousKey);
             keyToNote[blackKeyCode] = blackKeyNote;
             blackKey.setAttribute('data-key', blackKeyCode);
         }
@@ -147,55 +155,33 @@ const playedSounds: PlayedSoundMap = {};
 function playSound(playKey: string | null, keyToNote: KeyNoteMap): void {
     if (playKey) {
         getKeyElement(playKey)?.classList.add('pressed');
-        playedSounds[playKey] = {
-            key: playKey,
-            audio: new Audio(`./audio/Piano.ff.${keyToNote[playKey]}.mp3`),
-        };
+
+        let audio = document.querySelector(`[data-pitch-key="${keyToNote[playKey]}"]`) as HTMLAudioElement;
+        if (playedSounds[playKey]) {
+            audio = audio.cloneNode(false) as HTMLAudioElement;
+            playedSounds[playKey].audios.push(audio);
+            playedSounds[playKey].status = PlayStatus.Playing;
+        } else {
+            playedSounds[playKey] = {
+                key: playKey,
+                audios: [audio],
+                status: PlayStatus.Playing,
+                lastHandledIdx: -1,
+            };
+        }
+
+        audio.currentTime = 0.1;
+        audio.play();
     }
 }
 
 const shiftKey = 'Shift';
-const pressedKeys: (string | null)[] = [];
 function recordPress(event: KeyboardEvent, keyToNote: KeyNoteMap): void {
     const currKey = event.key;
 
-    if (currKey !== shiftKey && !keyToNote[currKey]) return;
+    if (currKey === shiftKey || !keyToNote[currKey] || (playedSounds[currKey] && playedSounds[currKey].status === PlayStatus.Playing)) return;
 
-    const lastIdx = pressedKeys.length - 1;
-    let newIdx: undefined | number;
-    if (lastIdx >= 0) {
-        const lastKey = pressedKeys[lastIdx];
-        if (lastKey === shiftKey) {
-            // If last key was shift, update if this one is non-shift note
-            if (currKey !== shiftKey) {
-                pressedKeys[lastIdx] = `${shiftKey}_${currKey}`
-            }
-        } else {
-            // If last key was a non-shift note
-            // Update it currently pressing shift
-            // Otherwise, create new item
-            if (currKey === shiftKey) {
-                pressedKeys[lastIdx] = `${shiftKey}_${lastKey}`
-            } else {
-                newIdx = pressedKeys.length;
-                pressedKeys.push(currKey);
-            }
-        }
-    } else {
-        // always create new item if first note pressed in array
-        newIdx = 0;
-        pressedKeys.push(currKey);
-    }
-
-    // Give them a fraction of a second to play the full note (shift + key)
-    if (newIdx !== undefined) {
-        const idx = newIdx;
-        setTimeout(() => {
-            const audioKey = pressedKeys[idx];
-            pressedKeys[idx] = null;
-            playSound(audioKey, keyToNote);
-        }, 300);
-    }
+    playSound(currKey, keyToNote);
 }
 
 function unpressKey(playedKey: string) {
@@ -208,21 +194,36 @@ function keyReleased(currKey: string, existingKey: string) {
 
 function recordStop(event: KeyboardEvent) {
     const currKey = event.key;
-    setTimeout(() => {
-        pressedKeys.forEach((key: string | null, idx: number): void => {
-            if (key && keyReleased(currKey, key)) {
-                pressedKeys[idx] = null;
-            }
-        });
+    let stoppedSound: PlayedSound | undefined;
+    Object.values(playedSounds).forEach((playedSound: PlayedSound): void => {
+        if (keyReleased(currKey, playedSound.key)) {
+            stoppedSound = playedSound;
+        }
+    });
 
-        Object.values(playedSounds).forEach((playedSound: PlayedSound): void => {
-            if (keyReleased(currKey, playedSound.key)) {
-                playedSound.audio.pause();
-                unpressKey(playedSound.key);
-                delete playedSounds[playedSound.key];
+    if (stoppedSound) {
+        const stopped = stoppedSound;
+        stopped.status = PlayStatus.Fading;
+        setTimeout(() => {
+            stopped.lastHandledIdx += 1;
+            const handleIdx = stopped.lastHandledIdx;
+            const currAudio = stopped.audios[handleIdx];
+            if (currAudio) {
+                currAudio.currentTime = 4;
+                unpressKey(stopped.key);
+                stopped.status = PlayStatus.Fading;
+                setTimeout(() => {
+                    console.log('handleIdx', handleIdx);
+
+                    stopped.audios[handleIdx] = null;
+
+                    if (stopped.audios.every(audio => !audio)) {
+                        delete playedSounds[stopped.key];
+                    }
+                }, 1000);
             }
-        });
-    }, 300);
+        }, 200);
+    }
 }
 
 export function addEventListeners(keyboard: HTMLElement, keyToNote: KeyNoteMap): void {
