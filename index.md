@@ -57,7 +57,7 @@ Visit code on [Github](https://github.com/cssherry/jschallenge)
 
 `npm run test`
 
-## 01: ["Drum kit"](demo/01-drum-kit)
+## 01: ["Drum kit"](demo/drum-kit.html)
 
 [Back up](#js-coding-challenge)
 
@@ -94,7 +94,7 @@ done
 [ ] Different instruments
 [X] Typescript
 
-## 15: [Todo list](demo/15-todo) (with local storage)
+## 15: [Todo list](demo/todo.html) (with local storage)
 
 [Back up](#js-coding-challenge)
 

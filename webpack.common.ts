@@ -79,12 +79,12 @@ export const commonWebpackConfiguration: Configuration = {
         chunkFilename: '[id].css',
       }),
       new HtmlWebpackPlugin({
-        filename: '15-todo/index.html',
+        filename: 'todo.html',
         template: 'src/15_todo/index.html',
         chunks: ['15_todo'],
       }),
       new HtmlWebpackPlugin({
-        filename: '01-drum-kit/index.html',
+        filename: 'drum-kit.html',
         template: 'src/01_drum_kit/index.html',
         chunks: ['01_drum_kit'],
       }),
