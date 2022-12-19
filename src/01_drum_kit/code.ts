@@ -1,11 +1,14 @@
 import { appendSvgChild } from "../util/html_helpers";
 import { KeyNoteMap, PlayedSound, PlayedSoundMap, PlayStatus } from "./types";
+// import styles from "./style.scss";
 
 function getKeyElement(playedKey: string): SVGElement | null {
     return document.querySelector(`[data-key="${playedKey}"]`);
 }
 
 /* 01 - DRAW KEYBOARD */
+// TODO: Figure out why this isn't working
+// const whiteHeight = parseInt(styles.keyboardHeight);
 const whiteHeight = 170;
 const whiteWidth = 35;
 const blackWidth = 22;
@@ -16,6 +19,8 @@ const blackLabelOffset = (whiteWidth - blackWidth) / 2;
 function getNextWhite(idx: number) {
     return (idx + 1) * whiteWidth;
 }
+
+const volumeEl = document.getElementById('volume-slider') as HTMLInputElement;
 
 function addWhiteRect(keyboard: SVGElement, idx: number, keyShortcut: string): SVGElement {
     const key = appendSvgChild(keyboard, 'rect', true);
@@ -176,6 +181,7 @@ function playSound(playKey: string | null, keyToNote: KeyNoteMap): void {
         playedKey.textContent = playKey;
         listOfKeys.textContent += ` ${keyToNote[playKey]} `;
         audio.currentTime = 0.1;
+        audio.volume = parseInt(volumeEl?.value || '50') / 100;
         audio.play();
     }
 }
@@ -215,7 +221,8 @@ function recordStop(currKey: string | undefined) {
                 playedNote.textContent = 'N/A';
                 playedKey.textContent = 'N/A';
 
-                currAudio.currentTime = 4;
+                // Handle longer playtime on D2 key
+                currAudio.currentTime = currAudio.dataset.pitchKey === 'D2' ? 4.4 : 3.7;
                 unpressKey(stopped.key);
                 stopped.status = PlayStatus.Fading;
                 setTimeout(() => {
