@@ -36,7 +36,7 @@ window.onload = () => {
       textEl.style.textShadow = shadows
         .map((
           [xMultiplier, yMultiplier]
-        ) => `${xWalk * xMultiplier}px ${yWalk * yMultiplier}px 0 rgba(${255 * xMultiplier}, ${255 * 0.5 * yMultiplier}, ${255 * Math.abs(xMultiplier * yMultiplier)}, 0.7)`)
+        ) => `${xWalk * xMultiplier}px ${yWalk * yMultiplier}px 0 rgba(${255 * 0.5 * xMultiplier}, ${255 * 0.5 * yMultiplier}, ${255 * Math.abs(xMultiplier * yMultiplier)}, 0.7)`)
         .join(', ');
     }
   }
