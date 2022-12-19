@@ -20,15 +20,12 @@ window.onload = () => {
     const { clientHeight: height, clientWidth: width } = containerEl;
     const { offsetLeft: left, offsetTop: top } = textEl;
     let { offsetX: x, offsetY: y } = e;
-    console.log(left, top, width, height);
 
     // Check that triggering element (currentTarget) is the same as the event listener element (target/containerEl)
     if (e.currentTarget !== e.target) {
       x += left;
       y += top;
     }
-
-    console.log(x, y);
 
     const xPositionPercentage = (x - width / 2) / width;
     const yPositionPercentage = (y - height / 2) / height;
