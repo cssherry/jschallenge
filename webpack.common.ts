@@ -16,6 +16,7 @@ export const commonWebpackConfiguration: Configuration = {
     entry: {
       '15_todo': './src/15_todo/index.ts',
       '01_drum_kit': './src/01_drum_kit/index.ts',
+      '16_mouse_move': './src/16_mouse_move/index.ts',
     },
     optimization: {
       usedExports: true
@@ -88,6 +89,11 @@ export const commonWebpackConfiguration: Configuration = {
         filename: 'drum-kit.html',
         template: 'src/01_drum_kit/index.html',
         chunks: ['01_drum_kit'],
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'mouse-move.html',
+        template: 'src/16_mouse_move/index.html',
+        chunks: ['16_mouse_move'],
       }),
   ],
 }
