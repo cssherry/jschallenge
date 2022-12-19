@@ -11,7 +11,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 // const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 // const ESLintPlugin = require("eslint-webpack-plugin");
 // const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const isProduction = process.env.NODE_ENV === 'production';
 export const commonWebpackConfiguration: Configuration = {
     entry: {
       '15_todo': './src/15_todo/index.ts',
@@ -42,14 +42,14 @@ export const commonWebpackConfiguration: Configuration = {
         {
             test: /\.(scss|css)$/,
             use: [
-              process.env.NODE_ENV !== 'production'
-                ? 'style-loader'
-                : MiniCssExtractPlugin.loader,
+              isProduction
+                ? MiniCssExtractPlugin.loader
+                : 'style-loader',
               'css-loader',
               {
                 loader: 'sass-loader',
                 options: {
-                  sourceMap: process.env.NODE_ENV === 'production' ? false : true,
+                  sourceMap: isProduction ? false : true,
                 }
               }
             ]
@@ -71,7 +71,7 @@ export const commonWebpackConfiguration: Configuration = {
       // new CleanWebpackPlugin(),
       new ForkTsCheckerWebpackPlugin(),
       new ESLintPlugin({
-          extensions: ['.tsx', '.ts', '.js'],
+          extensions: ['.ts', '.js'],
           exclude: 'node_modules'
       }),
       new MiniCssExtractPlugin({
