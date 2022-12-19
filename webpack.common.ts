@@ -23,6 +23,7 @@ export const commonWebpackConfiguration: Configuration = {
     output: {
       filename: '[name].[contenthash].js',
       path: path.resolve(__dirname, 'demo'),
+      clean: true,
     },
     module: {
       rules: [
